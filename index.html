@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meet with the Bishop</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Theme matches the Ustick Building ward portal */
+  :root {
+    --sky: #E6EDF3;
+    --mist: #F7F9FB;
+    --slate: #1F3347;
+    --slate-soft: #4F6275;
+    --gold: #A8844E;
+    --line: #D5DEE6;
+    --danger: #A12C2C;
+    --serif: "Marcellus", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  [hidden] { display: none !important; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--slate);
+    background-color: var(--sky);
+    background-image:
+      linear-gradient(180deg, rgba(247,249,251,.55) 0%, rgba(247,249,251,.82) 45%, rgba(247,249,251,.96) 100%),
+      linear-gradient(180deg, #CFDDE9 0%, #E6EDF3 50%, #F7F9FB 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 30rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ---------- Header ---------- */
+  header { text-align: center; margin-bottom: 2rem; }
+
+  .back {
+    display: inline-flex; align-items: center; gap: .35rem;
+    min-height: 2.75rem; margin-bottom: 1rem;
+    font-size: .95rem; color: var(--slate-soft); text-decoration: none;
+  }
+  .back svg { width: 1rem; height: 1rem; color: var(--gold); }
+  .back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+  .building { font-size: 1rem; color: var(--slate-soft); margin-bottom: .35rem; }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: .02em;
+  }
+  .rule { width: 3rem; height: 2px; background: var(--gold); margin: 1rem auto; border: 0; }
+  .intro { font-size: 1.05rem; color: var(--slate-soft); }
+
+  .banner {
+    margin-top: 1.25rem; padding: .75rem 1rem; text-align: left;
+    font-size: .95rem; color: var(--slate-soft);
+    background: rgba(255,255,255,.92);
+    border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 10px;
+  }
+
+  /* ---------- Cards and rows (same as the portal's link list) ---------- */
+  .card {
+    background: rgba(255,255,255,.92);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(31,51,71,.08);
+  }
+
+  .row {
+    display: flex; align-items: center; gap: 1rem;
+    width: 100%; min-height: 4rem; padding: .9rem 1.25rem;
+    font: inherit; color: inherit; text-align: left; text-decoration: none;
+    background: none; border: 0; border-top: 1px solid var(--line);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .row:first-child { border-top: 0; }
+  button.row, a.row { cursor: pointer; }
+  button.row:active, a.row:active { background: var(--sky); }
+  button.row:focus-visible, a.row:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+  button.row:disabled { cursor: default; background: none; }
+
+  .main { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .name { display: block; font-family: var(--serif); font-size: 1.3rem; line-height: 1.25; }
+  .note { display: block; font-size: .95rem; color: var(--slate-soft); margin-top: .15rem; }
+  .warn { display: block; font-size: .9rem; color: var(--danger); margin-top: .15rem; }
+  .taken .name { color: var(--slate-soft); opacity: .6; }
+
+  .chev { flex: none; width: 1.1rem; height: 1.1rem; color: var(--gold); }
+
+  @media (hover: hover) {
+    button.row:not(:disabled):hover, a.row:hover { background: var(--mist); }
+  }
+
+  /* ---------- Day groups ---------- */
+  .group + .group { margin-top: 2rem; }
+  .group-heading {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 1.15rem; line-height: 1.3;
+    margin: 0 .25rem .65rem; color: var(--slate);
+  }
+  .full { margin: .6rem .25rem 0; font-size: .95rem; color: var(--slate-soft); }
+  .empty { padding: 1.5rem 1.25rem; text-align: center; color: var(--slate-soft); }
+
+  /* Secretary row buttons */
+  .pill {
+    flex: none; min-height: 2.5rem; padding: 0 1rem;
+    font: inherit; font-size: .95rem; font-weight: 600; cursor: pointer;
+    color: var(--slate); background: #fff;
+    border: 1px solid var(--line); border-radius: 999px;
+  }
+  .pill.solid { color: #fff; background: var(--slate); border-color: var(--slate); }
+  .pill.confirm { color: #fff; background: var(--danger); border-color: var(--danger); }
+  .pill:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+  /* ---------- Form and result panels ---------- */
+  .panel { padding: 1.4rem 1.25rem; }
+  .panel-label { font-size: .95rem; color: var(--slate-soft); text-align: center; }
+  .when {
+    font-family: var(--serif); font-size: 1.45rem; line-height: 1.25;
+    text-align: center; margin-top: .2rem;
+  }
+  .panel .rule { margin: 1rem auto 1.1rem; }
+  .center { text-align: center; }
+  .soft { color: var(--slate-soft); }
+  .panel p + p { margin-top: .4rem; }
+
+  label { display: block; margin: 1rem 0 .3rem; font-weight: 600; }
+  .hint { font-weight: 400; font-size: .92rem; color: var(--slate-soft); }
+  p.hint { margin: 1rem 0 -.35rem; }
+  input, select, textarea {
+    width: 100%; padding: .7rem .85rem;
+    font: inherit; color: var(--slate);
+    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+  }
+  input:focus, select:focus, textarea:focus { outline: 3px solid var(--gold); outline-offset: 0; border-color: var(--gold); }
+
+  .error { min-height: 1.5em; margin: .9rem 0 .2rem; color: var(--danger); font-weight: 600; }
+  .primary {
+    display: block; width: 100%; min-height: 3.25rem; margin-top: .5rem;
+    font: inherit; font-size: 1.05rem; font-weight: 600; cursor: pointer;
+    color: #fff; background: var(--slate); border: 0; border-radius: 12px;
+  }
+  .primary:disabled { opacity: .6; cursor: wait; }
+  .primary:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .linkbtn {
+    display: block; margin: .85rem auto 0; padding: .5rem;
+    font: inherit; color: var(--slate-soft); cursor: pointer;
+    background: none; border: 0;
+    text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px;
+  }
+  .linkbtn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---------- Contact ---------- */
+  .contact { margin-top: 2rem; }
+  .info-block { text-align: center; padding: 0 .5rem; margin-bottom: .75rem; }
+  .info-text { font-size: 1.05rem; line-height: 1.55; color: var(--slate-soft); }
+  .info-note { margin-top: .35rem; font-size: .92rem; color: var(--slate-soft); }
+  .contact .row { min-height: 3.5rem; }
+  .contact .name { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; }
+
+  footer {
+    margin-top: auto; padding-top: 2.5rem;
+    text-align: center; font-size: .9rem; color: var(--slate-soft);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #form .card, #done .card, #cancel .card { animation: rise .18s ease-out; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <a class="back" id="portal" href="#" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      <span id="portal-label"></span>
+    </a>
+    <p class="building" id="ward"></p>
+    <h1 id="title">Meet with the Bishop</h1>
+    <hr class="rule">
+    <p class="intro" id="lead"></p>
+    <div class="banner" id="banner" hidden>
+      Secretary view. Anyone with this link can see names and change appointments, so keep it private.
+    </div>
+  </header>
+
+  <main>
+    <p id="loading" class="empty">Loading the schedule…</p>
+
+    <section id="list" hidden>
+      <div id="days"></div>
+      <div id="contact"></div>
+    </section>
+
+    <section id="form" hidden>
+      <div class="card panel">
+        <p class="panel-label">Your appointment</p>
+        <p class="when" id="when"></p>
+        <hr class="rule">
+        <form id="bookform" novalidate>
+          <label for="f-name">Name</label>
+          <input id="f-name" autocomplete="name">
+          <p class="hint" id="reach-hint">Enter a phone number or email so the bishop’s office can reach you.</p>
+          <label for="f-phone">Phone</label>
+          <input id="f-phone" type="tel" inputmode="tel" autocomplete="tel">
+          <label for="f-email">Email</label>
+          <input id="f-email" type="email" autocomplete="email">
+          <div id="type-wrap">
+            <label for="f-type">What is the appointment for? <span class="hint">Optional</span></label>
+            <select id="f-type"></select>
+          </div>
+          <div id="notes-wrap" hidden>
+            <label for="f-notes">Scheduling notes <span class="hint">Optional, visible on the secretary view</span></label>
+            <textarea id="f-notes" rows="2"></textarea>
+          </div>
+          <p class="error" id="form-err" role="alert"></p>
+          <button class="primary" id="book-btn" type="submit">Book this time</button>
+        </form>
+        <button class="linkbtn" type="button" id="back">Choose a different time</button>
+      </div>
+    </section>
+
+    <section id="done" hidden>
+      <div class="card panel center">
+        <p class="panel-label">Booked</p>
+        <p class="when" id="done-when"></p>
+        <hr class="rule">
+        <p id="done-name"></p>
+        <p class="soft" id="done-msg"></p>
+        <button class="primary" type="button" id="again">Back to the schedule</button>
+      </div>
+      <div id="done-contact"></div>
+    </section>
+
+    <section id="cancel" hidden>
+      <div class="card panel center">
+        <p class="panel-label" id="c-head">Cancel your appointment?</p>
+        <p class="when" id="c-when"></p>
+        <hr class="rule">
+        <p id="c-name"></p>
+        <p class="soft" id="c-msg"></p>
+        <p class="error" id="c-err" role="alert"></p>
+        <button class="primary" type="button" id="c-btn">Cancel appointment</button>
+        <button class="linkbtn" type="button" id="c-back">See open times</button>
+      </div>
+      <div id="c-contact"></div>
+    </section>
+  </main>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+  /* Your Apps Script web app's /exec link (Deploy > Manage deployments). */
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx7kCsPnHzDznBVdN782xJbhDFirINWYzRC8pNfo_mM2ZTqxb_Dw6qGblNV88Fn3LUuNg/exec';
+
+  const params = new URLSearchParams(location.search);
+  const BOOT = { key: params.get('s') || '', cancel: params.get('cancel') || '' };
+  let DATA = null, pick = null;
+
+  const CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
+
+  const $ = id => document.getElementById(id);
+  const VIEWS = ['loading', 'list', 'form', 'done', 'cancel'];
+  function show(view) { VIEWS.forEach(v => $(v).hidden = v !== view); window.scrollTo(0, 0); }
+  function el(tag, props, ...kids) {
+    const n = Object.assign(document.createElement(tag), props || {});
+    kids.forEach(k => n.append(k));
+    return n;
+  }
+  function chev() { const s = document.createElement('span'); s.innerHTML = CHEV; return s.firstChild; }
+  /** Calls the Apps Script data service. Same names as the server functions. */
+  async function run(fn, arg) {
+    let res;
+    if (fn === 'getPageData' || fn === 'getBooking') {
+      const q = new URLSearchParams(fn === 'getPageData' ? { action: 'page', s: arg || '' } : { action: 'booking', id: arg });
+      res = await fetch(API_URL + '?' + q, { cache: 'no-store' });
+    } else {
+      const body = fn === 'book' ? Object.assign({ action: 'book' }, arg) : { action: 'cancel', id: arg };
+      // text/plain keeps this a "simple" request, which Apps Script accepts from another site.
+      res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+    }
+    if (!res.ok) throw new Error('The schedule service didn’t respond. Try again in a moment.');
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error);
+    return out.data;
+  }
+  function errText(e) { return (e && e.message ? e.message : String(e)).replace(/^Error:\s*/, ''); }
+
+  function setHeader(info, title, lead) {
+    const ok = /^https?:\/\//i.test(info.portalUrl || '');
+    const label = info.portalLabel || 'Ward portal';
+    $('ward').textContent = info.ward || '';
+    $('ward').hidden = !info.ward || (ok && label.trim() === info.ward.trim()); // don't repeat the back link
+    $('title').textContent = title;
+    document.title = title;
+    $('lead').textContent = lead || '';
+    $('lead').hidden = !lead;
+    $('footer').textContent = info.ward || '';
+    $('portal').hidden = !ok;
+    if (ok) {
+      $('portal').href = info.portalUrl;
+      $('portal-label').textContent = label;
+    }
+  }
+
+  /** Contact note plus tap-to-call and tap-to-text rows for the executive secretary. */
+  function contactBlock(info) {
+    const phone = (info.secPhone || '').trim();
+    if (!info.contact && !phone) return '';
+    const box = el('div', { className: 'contact' });
+    const text = el('div', { className: 'info-block' });
+    if (info.contact) text.append(el('p', { className: 'info-text', textContent: info.contact }));
+    if (phone && info.secName) text.append(el('p', { className: 'info-note', textContent: info.secName + ', executive secretary' }));
+    box.append(text);
+    if (phone) {
+      const digits = phone.replace(/[^\d+]/g, '');
+      const item = (href, label) => el('a', { className: 'row', href },
+        el('span', { className: 'main' }, el('span', { className: 'name', textContent: label })), chev());
+      box.append(el('div', { className: 'card' },
+        item('tel:' + digits, 'Call ' + phone),
+        item('sms:' + digits, 'Send a text')
+      ));
+    }
+    return box;
+  }
+
+  /* ---------- Schedule ---------- */
+
+  async function load() {
+    $('loading').textContent = 'Loading the schedule…';
+    show('loading');
+    try {
+      DATA = await run('getPageData', BOOT.key);
+      render();
+      show('list');
+    } catch (e) {
+      $('loading').textContent = 'The schedule didn’t load. Refresh the page to try again.';
+    }
+  }
+
+  function render() {
+    setHeader(DATA, DATA.title, DATA.admin
+      ? 'Book for anyone, see who’s scheduled, or cancel an appointment.'
+      : 'Choose an open time to meet with the bishop.');
+    $('banner').hidden = !DATA.admin;
+    $('contact').replaceChildren(DATA.admin ? '' : contactBlock(DATA));
+
+    const box = $('days');
+    box.replaceChildren();
+    if (!DATA.days.length) {
+      box.append(el('div', { className: 'card' }, el('p', { className: 'empty', textContent: 'There are no open times right now.' })));
+      return;
+    }
+    DATA.days.forEach(day => {
+      const card = el('div', { className: 'card' });
+      day.slots.forEach(s => card.append(DATA.admin ? adminRow(day, s) : memberRow(day, s)));
+      const group = el('section', { className: 'group' }, el('h2', { className: 'group-heading', textContent: day.label }), card);
+      if (!DATA.admin && !day.slots.some(s => s.open)) {
+        group.append(el('p', { className: 'full', textContent: 'All times this day are taken.' }));
+      }
+      box.append(group);
+    });
+  }
+
+  function memberRow(day, s) {
+    const main = el('span', { className: 'main' }, el('span', { className: 'name', textContent: s.label }));
+    if (!s.open) {
+      main.append(el('span', { className: 'note', textContent: 'Taken' }));
+      return el('button', { className: 'row taken', type: 'button', disabled: true }, main);
+    }
+    return el('button', { className: 'row', type: 'button', onclick: () => openForm(day, s) }, main, chev());
+  }
+
+  function adminRow(day, s) {
+    const main = el('div', { className: 'main' }, el('span', { className: 'name', textContent: s.label }));
+    const row = el('div', { className: 'row' }, main);
+    if (s.open) {
+      main.append(el('span', { className: 'note', textContent: 'Open' }));
+      row.append(el('button', { className: 'pill solid', type: 'button', textContent: 'Book', onclick: () => openForm(day, s) }));
+      return row;
+    }
+    const b = s.booking;
+    main.append(el('span', { className: 'note', textContent: b.name }));
+    const meta = [b.type, b.phone, b.email].filter(Boolean).join(', ');
+    if (meta) main.append(el('span', { className: 'note', textContent: meta }));
+    if (b.notes) main.append(el('span', { className: 'note', textContent: b.notes }));
+    if (s.offSchedule) main.append(el('span', { className: 'warn', textContent: 'Not on the current schedule' }));
+
+    const btn = el('button', { className: 'pill', type: 'button', textContent: 'Cancel' });
+    btn.onclick = async () => {
+      if (!btn.classList.contains('confirm')) {
+        btn.classList.add('confirm');
+        btn.textContent = 'Tap to confirm';
+        setTimeout(() => { btn.classList.remove('confirm'); btn.textContent = 'Cancel'; }, 4000);
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Cancelling…';
+      try { await run('cancelBooking', b.id); load(); }
+      catch (e) { btn.disabled = false; btn.textContent = 'Try again'; }
+    };
+    row.append(btn);
+    return row;
+  }
+
+  /* ---------- Booking form ---------- */
+
+  function openForm(day, s) {
+    pick = { day, s };
+    $('bookform').reset();
+    $('form-err').textContent = '';
+    $('when').textContent = day.label + ' at ' + s.label;
+    $('f-type').replaceChildren(
+      el('option', { value: '', textContent: 'Choose one' }),
+      ...DATA.types.map(t => el('option', { value: t, textContent: t }))
+    );
+    $('type-wrap').hidden = !DATA.types.length;
+    $('notes-wrap').hidden = !DATA.admin;
+    $('reach-hint').hidden = DATA.admin;
+    show('form');
+    $('f-name').focus();
+  }
+
+  $('bookform').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const btn = $('book-btn');
+    btn.disabled = true;
+    btn.textContent = 'Booking…';
+    $('form-err').textContent = '';
+    try {
+      const r = await run('book', {
+        key: BOOT.key, date: pick.day.key, time: pick.s.time,
+        name: $('f-name').value, phone: $('f-phone').value, email: $('f-email').value,
+        type: $('f-type').value, notes: $('f-notes').value
+      });
+      $('done-when').textContent = r.label;
+      $('done-name').textContent = r.name;
+      $('done-msg').textContent = DATA.admin
+        ? 'It’s on the schedule.'
+        : (r.emailed ? 'A confirmation email is on its way.' : 'Make a note of this time.');
+      $('again').textContent = DATA.admin ? 'Book another' : 'Back to the schedule';
+      $('done-contact').replaceChildren(DATA.admin ? '' : contactBlock(DATA));
+      show('done');
+    } catch (e) {
+      $('form-err').textContent = errText(e);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Book this time';
+    }
+  });
+
+  $('back').onclick = load;
+  $('again').onclick = load;
+
+  /* ---------- Cancel link from email ---------- */
+
+  async function cancelMode() {
+    show('loading');
+    try {
+      const b = await run('getBooking', BOOT.cancel);
+      setHeader(b, b.title, '');
+      $('c-when').textContent = b.label;
+      $('c-name').textContent = b.name;
+      $('c-contact').replaceChildren(contactBlock(b));
+      if (b.cancelled) {
+        $('c-head').textContent = 'Cancelled';
+        $('c-msg').textContent = 'This appointment is already cancelled.';
+        $('c-btn').hidden = true;
+      }
+      show('cancel');
+    } catch (e) {
+      $('loading').textContent = errText(e);
+    }
+  }
+
+  $('c-btn').onclick = async () => {
+    const btn = $('c-btn');
+    btn.disabled = true;
+    btn.textContent = 'Cancelling…';
+    $('c-err').textContent = '';
+    try {
+      await run('cancelBooking', BOOT.cancel);
+      $('c-head').textContent = 'Cancelled';
+      $('c-msg').textContent = 'Your appointment is cancelled, and the time is open for someone else.';
+      btn.hidden = true;
+    } catch (e) {
+      $('c-err').textContent = errText(e);
+      btn.disabled = false;
+      btn.textContent = 'Cancel appointment';
+    }
+  };
+  $('c-back').onclick = load;
+
+  if (BOOT.cancel) cancelMode(); else load();
+</script>
+</body>
+</html>
