@@ -112,6 +112,32 @@
     button.row:not(:disabled):hover, a.row:hover { background: var(--mist); }
   }
 
+  /* ---------- Time bubbles (members) ---------- */
+  .slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5.9rem, 1fr));
+    gap: .55rem;
+    padding: .9rem;
+  }
+  .bubble {
+    min-height: 3rem; padding: 0 .5rem;
+    font: inherit; font-size: 1.05rem; font-weight: 600; cursor: pointer;
+    color: var(--slate); background: #fff;
+    border: 1.5px solid var(--gold); border-radius: 999px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bubble:active { background: var(--sky); }
+  .bubble:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .bubble:disabled {
+    cursor: default; font-weight: 400; color: var(--slate-soft);
+    background: var(--mist); border: 1.5px dashed var(--line);
+    text-decoration: line-through; text-decoration-color: rgba(79,98,117,.5);
+  }
+  @media (hover: hover) {
+    .bubble:not(:disabled):hover { background: var(--mist); }
+  }
+  .legend { margin: .55rem .25rem 0; font-size: .9rem; color: var(--slate-soft); }
+
   /* ---------- Day groups ---------- */
   .group + .group { margin-top: 2rem; }
   .group-heading {
@@ -375,23 +401,23 @@
       return;
     }
     DATA.days.forEach(day => {
-      const card = el('div', { className: 'card' });
+      const card = el('div', { className: DATA.admin ? 'card' : 'card slots' });
       day.slots.forEach(s => card.append(DATA.admin ? adminRow(day, s) : memberRow(day, s)));
       const group = el('section', { className: 'group' }, el('h2', { className: 'group-heading', textContent: day.label }), card);
       if (!DATA.admin && !day.slots.some(s => s.open)) {
         group.append(el('p', { className: 'full', textContent: 'All times this day are taken.' }));
+      } else if (!DATA.admin && day.slots.some(s => !s.open)) {
+        group.append(el('p', { className: 'legend', textContent: 'Crossed-out times are taken.' }));
       }
       box.append(group);
     });
   }
 
   function memberRow(day, s) {
-    const main = el('span', { className: 'main' }, el('span', { className: 'name', textContent: s.label }));
-    if (!s.open) {
-      main.append(el('span', { className: 'note', textContent: 'Taken' }));
-      return el('button', { className: 'row taken', type: 'button', disabled: true }, main);
-    }
-    return el('button', { className: 'row', type: 'button', onclick: () => openForm(day, s) }, main, chev());
+    const b = el('button', { className: 'bubble', type: 'button', textContent: s.label, disabled: !s.open });
+    if (s.open) b.onclick = () => openForm(day, s);
+    else b.setAttribute('aria-label', s.label + ', taken');
+    return b;
   }
 
   function adminRow(day, s) {
