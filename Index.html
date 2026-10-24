@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<?!= include('Styles') ?>
+</head>
+<body<? if (data.photo) { ?> style="--temple-photo: url('<?!= data.photo ?>')"<? } ?>>
+  <main class="page">
+    <header>
+      <? if (data.logo) { ?>
+        <img class="logo" src="<?!= data.logo ?>" alt="">
+      <? } ?>
+      <h1><?= data.settings.buildingName ?></h1>
+      <hr class="rule">
+      <? if (data.settings.intro) { ?>
+        <p class="intro"><?= data.settings.intro ?></p>
+      <? } ?>
+    </header>
+
+    <nav aria-label="Wards">
+      <? if (data.wards.length === 0) { ?>
+        <p class="empty">Ward information will be posted soon.</p>
+      <? } ?>
+      <? data.wards.forEach(function (w) { ?>
+        <? if (w.link) { ?>
+          <a class="row" href="<?= w.link ?>" target="_top">
+        <? } else { ?>
+          <div class="row">
+        <? } ?>
+            <span class="ward">
+              <span class="ward-name"><?= w.name ?></span>
+              <? if (w.time) { ?>
+                <span class="ward-time">Sacrament meeting <?= w.time ?></span>
+              <? } ?>
+            </span>
+        <? if (w.link) { ?>
+            <svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+          </a>
+        <? } else { ?>
+          </div>
+        <? } ?>
+      <? }); ?>
+    </nav>
+
+    <? if (data.settings.footer) { ?>
+      <footer><?= data.settings.footer ?></footer>
+    <? } ?>
+  </main>
+</body>
+</html>
